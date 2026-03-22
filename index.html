@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="calculator-card">
+      <div class="screen-area">
+        <p id="expression" class="expression">0</p>
+        <h1 id="display" class="display">0</h1>
+      </div>
+
+      <div class="buttons">
+        <button class="btn btn-top" onclick="clearAll()">AC</button>
+        <button class="btn btn-top" onclick="toggleSign()">+/-</button>
+        <button class="btn btn-top" onclick="appendPercent()">%</button>
+        <button class="btn btn-operator" onclick="appendValue('/')">÷</button>
+
+        <button class="btn btn-number" onclick="appendValue('7')">7</button>
+        <button class="btn btn-number" onclick="appendValue('8')">8</button>
+        <button class="btn btn-number" onclick="appendValue('9')">9</button>
+        <button class="btn btn-operator" onclick="appendValue('*')">×</button>
+
+        <button class="btn btn-number" onclick="appendValue('4')">4</button>
+        <button class="btn btn-number" onclick="appendValue('5')">5</button>
+        <button class="btn btn-number" onclick="appendValue('6')">6</button>
+        <button class="btn btn-operator" onclick="appendValue('-')">−</button>
+
+        <button class="btn btn-number" onclick="appendValue('1')">1</button>
+        <button class="btn btn-number" onclick="appendValue('2')">2</button>
+        <button class="btn btn-number" onclick="appendValue('3')">3</button>
+        <button class="btn btn-operator" onclick="appendValue('+')">+</button>
+
+        <button class="btn btn-number btn-zero" onclick="appendValue('0')">0</button>
+        <button class="btn btn-number" onclick="appendValue('.')">,</button>
+        <button class="btn btn-operator" onclick="calculate()">=</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
