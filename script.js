@@ -13,43 +13,79 @@ function formatForDisplay(value) {
 }
 
 function appendValue(value) {
-  if (currentInput === "0" && value !== ".") {
+  const operators = ["+", "-", "*", "/"];
+
+  if (currentInput === "0" && value !== "." && !operators.includes(value)) {
     currentInput = value;
-  } else {
-    currentInput += value;
+    updateScreen();
+    return;
   }
+
+  const lastChar = currentInput.slice(-1);
+
+  if (operators.includes(value) && operators.includes(lastChar)) {
+    currentInput = currentInput.slice(0, -1) + value;
+    updateScreen();
+    return;
+  }
+
+  if (value === ".") {
+    const parts = currentInput.split(/[\+\-\*\/]/);
+    const lastPart = parts[parts.length - 1];
+    if (lastPart.includes(".")) return;
+  }
+
+  currentInput += value;
   updateScreen();
 }
 
-function clearAll() {
-  currentInput = "0";
-  updateScreen();
+function getLastNumberParts(expr) {
+  const match = expr.match(/(-?\d*\.?\d+)$/);
+  if (!match) return null;
+
+  return {
+    number: match[0],
+    start: match.index,
+    end: match.index + match[0].length
+  };
 }
 
 function toggleSign() {
-  try {
-    if (currentInput === "0") return;
+  const parts = getLastNumberParts(currentInput);
 
-    if (!isNaN(currentInput)) {
-      currentInput = (parseFloat(currentInput) * -1).toString();
-      updateScreen();
-    }
-  } catch (error) {
-    currentInput = "0";
-    updateScreen();
+  if (!parts) return;
+
+  const { number, start, end } = parts;
+  let newNumber;
+
+  if (number.startsWith("-")) {
+    newNumber = number.slice(1);
+  } else {
+    newNumber = "-" + number;
   }
+
+  currentInput =
+    currentInput.slice(0, start) +
+    newNumber +
+    currentInput.slice(end);
+
+  updateScreen();
 }
 
 function appendPercent() {
-  try {
-    if (!isNaN(currentInput)) {
-      currentInput = (parseFloat(currentInput) / 100).toString();
-      updateScreen();
-    }
-  } catch (error) {
-    currentInput = "0";
-    updateScreen();
-  }
+  const parts = getLastNumberParts(currentInput);
+
+  if (!parts) return;
+
+  const { number, start, end } = parts;
+  const percentValue = (parseFloat(number) / 100).toString();
+
+  currentInput =
+    currentInput.slice(0, start) +
+    percentValue +
+    currentInput.slice(end);
+
+  updateScreen();
 }
 
 function calculate() {
